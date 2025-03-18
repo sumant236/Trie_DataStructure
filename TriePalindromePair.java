@@ -38,6 +38,7 @@ public class TriePalindromePair {
 
     /*..................... Palindrome Pair................... */
 
+//    Reverses a given word
     private static String reverseWord(String word){
         String str = "";
         for (int i = word.length()-1; i >= 0; i--) {
@@ -47,7 +48,7 @@ public class TriePalindromePair {
         return str;
     }
 
-//    this function will return if the word is palindrome or not
+    //     Checks if a given word is a palindrome
     private static boolean checkWordForPalindrome(String word){
         int startIndex = 0;
         int endIndex = word.length() - 1;
@@ -60,15 +61,15 @@ public class TriePalindromePair {
         return true;
     }
 
-//    This function will check the remaining branches are palindrome or not
+    //    Recursively checks if any remaining words in the Trie form a palindrome
     private static boolean checkRemainingBranchesInTrie(TrieNode root, String word){
         if(root.isTerminating){
             if(checkWordForPalindrome(word))
                 return true;
         }
 
-//        We have to check at every char index in root node
-        for (int i = 0; i < 25; i++) {
+//        // Traverse through all possible child nodes
+        for (int i = 0; i < 26; i++) {
             TrieNode child = root.children[i];
             if(child==null)
                 continue;
@@ -83,12 +84,12 @@ public class TriePalindromePair {
         return false;
     }
 
-//    Check if pair exist
+//    Checks if the given word has a palindrome pair in the Trie
     private static boolean doesPairExistFor(TrieNode root, String word, int startIndex){
         if(word.isEmpty())
             return true;
 
-//        If it's equal we need to check for remaining words if they are palindrome or not
+        // If the entire word is traversed, check for termination and remaining branches
         if(startIndex == word.length()){
             if(root.isTerminating)
                 return true;
@@ -99,7 +100,7 @@ public class TriePalindromePair {
         int childIndex = word.charAt(startIndex) - 'a';
         TrieNode child = root.children[childIndex];
 
-//        if child is null and root node is terminating then we need to check if the word is palindrome or not
+                // If child is null, check if the remaining word is a palindrome
         if(child == null){
             if(root.isTerminating)
                 return checkWordForPalindrome(word.substring(startIndex));
@@ -109,6 +110,7 @@ public class TriePalindromePair {
         return doesPairExistFor(child, word, startIndex +1);
     }
 
+//         * Checks if any two words in the list form a palindrome pair
     private static boolean isPalindromePair(TrieNode root, ArrayList<String> words){
 //        In case there is no word in arraylist
         if(words.isEmpty())
